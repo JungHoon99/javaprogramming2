@@ -1,0 +1,62 @@
+package traning;
+
+import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.util.ArrayList;
+
+public class train {
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		myFrames f = new myFrames();
+	}
+
+}
+
+class myFrames extends JFrame{
+	
+	private JLabel la = new JLabel("Hello");
+	
+	public myFrames(){
+		setTitle("정훈의 코딩 세상");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(null);
+		c.addMouseListener(new MyMouseListener() );
+		la.setSize(50, 20);
+		la.setLocation(30, 30);
+		c.add(la);
+		setSize(300,300);
+		setVisible(true);
+	}
+	
+	class MyMouseListener implements MouseListener{
+
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	    	int x = e.getX();
+	    	int y = e.getY();
+	    	la.setLocation(x,y);
+	    }
+
+	    @Override
+	    public void mousePressed(MouseEvent e) {
+	    }
+
+	    @Override
+	    public void mouseReleased(MouseEvent e) {
+	    }
+
+	    @Override
+	    public void mouseEntered(MouseEvent e) {
+	    }
+
+	    @Override
+	    public void mouseExited(MouseEvent e) {
+	    }
+	}
+}
