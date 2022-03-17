@@ -1,0 +1,147 @@
+package traning;
+
+import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.util.ArrayList;
+
+public class train {
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		myFrames f = new myFrames();
+	}
+
+}
+
+class myFrames extends JFrame{
+	
+	private JLabel la = new JLabel("Hello");
+	private JButton bt = new JButton("change text");
+	private JButton bt1 = new JButton("change color");
+	Container c = getContentPane();
+	
+	public myFrames(){
+		setTitle("정훈의 코딩 세상");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GridLayout grid = new GridLayout(2,1);
+		c.setLayout(null);
+		c.addMouseListener(new MyMouseListener());
+		c.addKeyListener(new MyKeyListener());
+		la.setSize(50, 20);
+		la.setLocation(30, 30);
+		bt.setLocation(0, 0);
+		bt.setSize(150, 20);
+		bt.addActionListener(new textListener());
+		bt1.setLocation(0, 20);
+		bt1.setSize(150, 20);
+		bt1.addActionListener(new colorListener());
+		c.add(la);
+		c.add(bt);
+		c.add(bt1);
+		// 키보드와 함께 버튼을 사용 할려면 모든 버튼에 필요
+		c.requestFocus(); 		//스윙에서는 버튼과 키보드를 입력을 받을 수 없다. 
+		c.setFocusable(true);	//포커스를 다시 키보드로 받을 수 있게 드라이브 해줘야한다.
+		setSize(300,300);
+		setVisible(true); 
+	}
+	
+	//버튼 액션 리스너 설정
+	class colorListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (la.getText() == "Hello")
+				la.setForeground(Color.orange);
+			else
+				la.setForeground(Color.blue);
+			
+			// 키보드와 함께 버튼을 사용 할려면 모든 버튼에 필요
+			c.requestFocus(); 
+			c.setFocusable(true);
+		}
+	}
+	
+	//버튼 액션 리스너 설정
+	class textListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (la.getText() == "Hello")
+				la.setText("안녕");
+			else
+				la.setText("Hello");
+			
+			// 키보드와 함께 버튼을 사용 할려면 모든 버튼에 필요
+			c.requestFocus(); 
+			c.setFocusable(true);
+		}
+	}
+	
+	//키보드 액션 리스너 설정
+	class MyKeyListener implements KeyListener{
+		int x,y;
+		int key;
+		@Override
+		public void keyTyped(KeyEvent e){}
+		@Override
+		public void keyPressed(KeyEvent e)
+		{
+			key = e.getKeyCode();
+			if(key == KeyEvent.VK_UP) {
+				x = la.getX();
+				y = la.getY();
+				la.setLocation(x,y-1);
+			}
+			if(key == KeyEvent.VK_DOWN) {
+				x = la.getX();
+				y = la.getY();
+				la.setLocation(x,y+1);
+			}
+			if(key == KeyEvent.VK_RIGHT) {
+				x = la.getX();
+				y = la.getY();
+				la.setLocation(x+1,y);
+			}
+			if(key == KeyEvent.VK_LEFT) {
+				x = la.getX();
+				y = la.getY();
+				la.setLocation(x-1,y);
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent e)
+		{
+		}
+	}
+	
+	//마우스 액션 리스너 설정
+	class MyMouseListener implements MouseListener{
+
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	    	int x = e.getX();
+	    	int y = e.getY();
+	    	la.setLocation(x,y);
+	    }
+
+	    @Override
+	    public void mousePressed(MouseEvent e) {
+	    }
+
+	    @Override
+	    public void mouseReleased(MouseEvent e) {
+	    }
+
+	    @Override
+	    public void mouseEntered(MouseEvent e) {
+	    }
+
+	    @Override
+	    public void mouseExited(MouseEvent e) {
+	    }
+	}
+}
