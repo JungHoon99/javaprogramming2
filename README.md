@@ -35,13 +35,10 @@
 
 ![99D438495C20A81433](https://user-images.githubusercontent.com/44799091/159215958-9fe1f431-8c26-4b35-beb3-934d76ead3f8.png)
 
-
-
-- html&css
-
-![download](https://user-images.githubusercontent.com/44799091/159215670-00ac6892-673e-4c1b-9c77-dd204c5ba1cb.png)
-
-
 - mysql
 
 ![download](https://user-images.githubusercontent.com/44799091/159211059-16e31898-b8eb-47c8-a65f-ea14ff7fead9.jpg)
+
+### 개발 일정
+
+![캡처](https://user-images.githubusercontent.com/44799091/159210928-97cf5e7c-e98e-4c17-b4f0-c3577a81754b.PNG)
