@@ -33,7 +33,8 @@
 
 - 자바
 
-![99D438495C20A81433](https://user-images.githubusercontent.com/44799091/159215896-03606f54-1fa3-420b-9da3-c5dbb9a04dfa.png)
+![99D438495C20A81433](https://user-images.githubusercontent.com/44799091/159215958-9fe1f431-8c26-4b35-beb3-934d76ead3f8.png)
+
 
 
 - html&css
