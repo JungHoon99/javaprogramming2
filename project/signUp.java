@@ -18,6 +18,7 @@ public class signUp extends JFrame{
 	private JTextField nameFiled = new JTextField();
 	private JTextField emailFiled = new JTextField();
 	private JTextField phoneNumberFiled = new JTextField();
+	private JButton signUpButton = new JButton("회원가입");
 	Container c = getContentPane();
 	
 	public signUp() {
@@ -47,6 +48,16 @@ public class signUp extends JFrame{
 		idFiled.requestFocus();
 		pwFiled.setLocation(95,55);
 		pwFiled.setSize(120, 20);
+		pwCheckFiled.setLocation(95,95);
+		pwCheckFiled.setSize(120, 20);
+		nameFiled.setLocation(95,135);
+		nameFiled.setSize(120, 20);
+		emailFiled.setLocation(95,175);
+		emailFiled.setSize(120, 20);
+		phoneNumberFiled.setLocation(95,215);
+		phoneNumberFiled.setSize(120, 20);
+		signUpButton.setLocation(100,250);
+		signUpButton.setSize(100, 20);
 		c.add(idLabel);
 		c.add(pwLabel);
 		c.add(pwCheckLabel);
@@ -55,6 +66,11 @@ public class signUp extends JFrame{
 		c.add(phoneNumberLabel);
 		c.add(idFiled);
 		c.add(pwFiled);
+		c.add(pwCheckFiled);
+		c.add(nameFiled);
+		c.add(emailFiled);
+		c.add(phoneNumberFiled);
+		c.add(signUpButton);
 		setResizable(false);
 		setSize(300,350);
 		setVisible(true);
