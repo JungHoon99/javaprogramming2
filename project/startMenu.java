@@ -23,21 +23,25 @@ class LoginUri extends JFrame{
 	private JLabel IdLabel = new JLabel("아이디");
 	private JLabel pwLabel = new JLabel("비밀번호");
 	private JTextField idFiled = new JTextField();
-	private JTextField pwFiled = new JTextField(20);
+	private JTextField pwFiled = new JTextField();
 	Container c = getContentPane();
+	
 	public LoginUri() {
 		setTitle("로그인");
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		signInButton.setLocation(90,100);
 		signInButton.setSize(100, 20);
+		signInButton.addActionListener(new SignInListener());
 		signUpButton.setLocation(90,130);
 		signUpButton.setSize(100, 20);
 		signUpButton.addActionListener(new SignUpListener());
-		IdLabel.setLocation(50,10);
-		IdLabel.setSize(100,30);
-		pwLabel.setLocation(40,50);
-		pwLabel.setSize(100,30);
+		IdLabel.setLocation(0,10);
+		IdLabel.setSize(90,30);
+		IdLabel.setHorizontalAlignment(JLabel.RIGHT);
+		pwLabel.setLocation(0,50);
+		pwLabel.setSize(90,30);
+		pwLabel.setHorizontalAlignment(JLabel.RIGHT);
 		idFiled.setLocation(95,15);
 		idFiled.setSize(120, 20);
 		idFiled.requestFocus();
@@ -60,6 +64,8 @@ class LoginUri extends JFrame{
 		@Override
         public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				dispose();
 				mainMenu signup = new mainMenu();
 			}
 		}
@@ -72,6 +78,16 @@ class LoginUri extends JFrame{
 				pwFiled.requestFocus();
 			}
 		}
+	}
+	
+	class SignInListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			dispose();
+			mainMenu signup = new mainMenu();
+		}
+		
 	}
 	
 	class SignUpListener implements ActionListener{
