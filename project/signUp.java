@@ -1,9 +1,10 @@
-package traning;
-
 import java.awt.Container;
 
 import javax.swing.*;
 
+/*
+ * 회원 가입 메뉴
+ */
 public class signUp extends JFrame{
 	private JLabel idLabel = new JLabel("아이디");
 	private JLabel pwLabel = new JLabel("비밀번호");
@@ -41,12 +42,19 @@ public class signUp extends JFrame{
 		phoneNumberLabel.setLocation(0,210);
 		phoneNumberLabel.setSize(90,30);
 		phoneNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
+		idFiled.setLocation(95,15);
+		idFiled.setSize(120, 20);
+		idFiled.requestFocus();
+		pwFiled.setLocation(95,55);
+		pwFiled.setSize(120, 20);
 		c.add(idLabel);
 		c.add(pwLabel);
 		c.add(pwCheckLabel);
 		c.add(nameLabel);
 		c.add(emailLabel);
 		c.add(phoneNumberLabel);
+		c.add(idFiled);
+		c.add(pwFiled);
 		setResizable(false);
 		setSize(300,350);
 		setVisible(true);
