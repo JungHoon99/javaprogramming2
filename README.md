@@ -42,3 +42,22 @@
 ### 개발 일정
 
 ![캡처](https://user-images.githubusercontent.com/44799091/159210928-97cf5e7c-e98e-4c17-b4f0-c3577a81754b.PNG)
+
+***
+##3주차
+![로그인 ui](https://user-images.githubusercontent.com/44799091/159639070-511e9455-558f-44e1-a248-20f209a61e51.PNG)
+-------------------
+![회원가입 ui](https://user-images.githubusercontent.com/44799091/159639036-c9cb52f3-a214-4fd5-86ba-59e00dadd2c9.PNG)
+-------------------
+![회원가입 ui1](https://user-images.githubusercontent.com/44799091/159639038-ba16be08-3235-4e4a-ab98-e37b7a190790.PNG)
+-------------------
+![회원가입 ui2](https://user-images.githubusercontent.com/44799091/159639040-0f49aaa3-cf45-4d2a-a980-0eee27c46903.PNG)
+-------------------
+![회원가입 ui3](https://user-images.githubusercontent.com/44799091/159639043-74ce821f-8552-4603-887e-8dc10f5c16cf.PNG)
+-------------------
+![회원가입 ui4](https://user-images.githubusercontent.com/44799091/159639044-8f7c8440-2ba1-408e-984a-bc040265c42b.PNG)
+-------------------
+![회원가입 ui5](https://user-images.githubusercontent.com/44799091/159639046-7a48a5dd-6961-4c40-9be1-c855dd790323.PNG)
+-------------------
+![회원가입 ui6](https://user-images.githubusercontent.com/44799091/159639052-f103e6b1-1f8f-4fe3-a33d-3b9d782c9061.PNG)
+-------------------
