@@ -45,19 +45,9 @@
 
 ***
 ## 3주차
-![로그인 ui](https://user-images.githubusercontent.com/44799091/159639070-511e9455-558f-44e1-a248-20f209a61e51.PNG)
--------------------
-![회원가입 ui](https://user-images.githubusercontent.com/44799091/159639036-c9cb52f3-a214-4fd5-86ba-59e00dadd2c9.PNG)
--------------------
-![회원가입 ui1](https://user-images.githubusercontent.com/44799091/159639038-ba16be08-3235-4e4a-ab98-e37b7a190790.PNG)
--------------------
-![회원가입 ui2](https://user-images.githubusercontent.com/44799091/159639040-0f49aaa3-cf45-4d2a-a980-0eee27c46903.PNG)
--------------------
-![회원가입 ui3](https://user-images.githubusercontent.com/44799091/159639043-74ce821f-8552-4603-887e-8dc10f5c16cf.PNG)
--------------------
-![회원가입 ui4](https://user-images.githubusercontent.com/44799091/159639044-8f7c8440-2ba1-408e-984a-bc040265c42b.PNG)
--------------------
-![회원가입 ui5](https://user-images.githubusercontent.com/44799091/159639046-7a48a5dd-6961-4c40-9be1-c855dd790323.PNG)
--------------------
-![회원가입 ui6](https://user-images.githubusercontent.com/44799091/159639052-f103e6b1-1f8f-4fe3-a33d-3b9d782c9061.PNG)
+> 로그인 ui, 회원가입 ui와 메인화면 ui를 만들어 보았습니다.
+> 로그인 화면에는 아이디 입력 TextField, 비밀번호 입력 PasswordTextField, 로그인 버튼, 회원가입 버튼
+> 로그인 버튼을 누르면 메인화면 ui가 나오게 설정하였고, 회원가입 버튼을 누르면 회원가입 창이 나오게 하였습니다.
+> 회원가입 창에서 비밀번호 입력시 지정한 형식과 맞지 않으면 사용자에게 잘못되었다고 알림
+> 비밀번호 확인에서 그전 비밀번호 TextField에서와의 문자열 비교후 맞지않으면 잘못되었다고 알림
 -------------------
