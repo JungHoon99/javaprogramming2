@@ -96,15 +96,19 @@ public class signUp extends JFrame{
 		setVisible(true);
 	}
 	
+	//사용자에게 재입력 비밀번호가 전입력 비밀번호와 맞는지 알림
 	class pwCheckListener extends KeyAdapter{
 		@Override
         public void keyPressed(KeyEvent e) {
 			String Text = pwCheckField.getText()+e.getKeyChar(); 
 			pwRightCheckLabel.setLocation(95,70);
+			//pwCheckField에 있는 문자열과 pwField에 있는 문자열이 같은지 확인
+			//같으면 일치한다는 걸 알려줌
 			if(Text.equals(pwField.getText())) {
 				pwCheckRightLabel.setText("비밀번호가 일치 합니다.");
 				pwCheckRightLabel.setForeground(new Color(39, 107, 56));
 			}
+			//같지 않다면 일치 하지 않음을 보여줌
 			else {
 				pwCheckRightLabel.setText("비밀번호가 일치하지 않습니다.");
 				pwCheckRightLabel.setForeground(Color.red);
@@ -113,31 +117,37 @@ public class signUp extends JFrame{
 		}
 	}
 	
+	//사용자에게 비밀번호 사용 가능 여부 알림
 	class pwListener extends KeyAdapter{
 		@Override
         public void keyPressed(KeyEvent e) {
 			String Text = pwField.getText()+e.getKeyChar(); 
 			pwRightCheckLabel.setLocation(95,70);
-			if(Text.length() >= 8) {
-				// ! ? @ * 
+			// pwField의 길이가 8보다 큰지 확인
+			if(Text.length()+1 >= 8) {
+				// pwField에 문자자 있는지 확인
 				if(!Text.matches(".*[a-z|A-Z|].*")) {
 					pwRightCheckLabel.setText("문자를 입력해 주세요");
 					pwRightCheckLabel.setForeground(Color.red);
 				}
+				// pwField에 숫자가 있는지 확인
 				else if(!Text.matches(".*[0-9].*")) {
 					pwRightCheckLabel.setText("숫자를 입력해 주세요");
 					pwRightCheckLabel.setForeground(Color.red);
 				}
+				// pwField에 특수 문자가 있는지 확인
 				else if(!Text.matches(".*[*!@?~&+-].*")) {
 					pwRightCheckLabel.setText("특수문자를 입력해 주세요");
 					pwRightCheckLabel.setForeground(Color.red);
 				}
+				//모든 조건이 만족되어 있으면 만족된걸 사용자에게 알려줌
 				else {
 					pwRightCheckLabel.setText("사용 할 수 있는 비밀번호 입니다.");
 					pwRightCheckLabel.setForeground(new Color(39, 107, 56));
 				}
 				
 			}
+			// 짧다면 부족하나다고 알려줌
 			else {
 				pwRightCheckLabel.setLocation(95,70);
 				pwRightCheckLabel.setText("8자리 이상 입력해 주세요");
