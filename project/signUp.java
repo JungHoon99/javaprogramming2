@@ -1,6 +1,12 @@
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
+
+import traning.LoginUri.pwListener;
 
 /*
  * 회원 가입 메뉴
@@ -12,12 +18,14 @@ public class signUp extends JFrame{
 	private JLabel nameLabel = new JLabel("이름");
 	private JLabel emailLabel = new JLabel("이메일");
 	private JLabel phoneNumberLabel = new JLabel("전화번호");
-	private JTextField idFiled = new JTextField();
-	private JTextField pwFiled = new JTextField();
-	private JTextField pwCheckFiled = new JTextField();
-	private JTextField nameFiled = new JTextField();
-	private JTextField emailFiled = new JTextField();
-	private JTextField phoneNumberFiled = new JTextField();
+	private JLabel pwRightCheckLabel = new JLabel("숫자,문자,특수문자를 포함한 8자이상 입력해주세요");
+	private JLabel pwCheckRightLabel = new JLabel("비밀번호를 일치 시켜 주세요");
+	private JTextField idField = new JTextField();
+	private JTextField pwField = new JPasswordField();
+	private JTextField pwCheckField = new JPasswordField();
+	private JTextField nameField = new JTextField();
+	private JTextField emailField = new JTextField();
+	private JTextField phoneNumberField = new JTextField();
 	private JButton signUpButton = new JButton("회원가입");
 	Container c = getContentPane();
 	
@@ -31,9 +39,17 @@ public class signUp extends JFrame{
 		pwLabel.setLocation(0,50);
 		pwLabel.setSize(90,30);
 		pwLabel.setHorizontalAlignment(JLabel.RIGHT);
+		pwRightCheckLabel.setLocation(30,70);
+		pwRightCheckLabel.setSize(250,30);
+		pwRightCheckLabel.setForeground(Color.blue);
+		pwRightCheckLabel.setFont(new Font("맑은 고딕", Font.CENTER_BASELINE , 10));
 		pwCheckLabel.setLocation(0,90);
 		pwCheckLabel.setSize(90,30);
 		pwCheckLabel.setHorizontalAlignment(JLabel.RIGHT);
+		pwCheckRightLabel.setLocation(95,105);
+		pwCheckRightLabel.setSize(250,30);
+		pwCheckRightLabel.setForeground(Color.blue);
+		pwCheckRightLabel.setFont(new Font("맑은 고딕", Font.CENTER_BASELINE , 10));
 		nameLabel.setLocation(0,130);
 		nameLabel.setSize(90,30);
 		nameLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -43,37 +59,91 @@ public class signUp extends JFrame{
 		phoneNumberLabel.setLocation(0,210);
 		phoneNumberLabel.setSize(90,30);
 		phoneNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
-		idFiled.setLocation(95,15);
-		idFiled.setSize(120, 20);
-		idFiled.requestFocus();
-		pwFiled.setLocation(95,55);
-		pwFiled.setSize(120, 20);
-		pwCheckFiled.setLocation(95,95);
-		pwCheckFiled.setSize(120, 20);
-		nameFiled.setLocation(95,135);
-		nameFiled.setSize(120, 20);
-		emailFiled.setLocation(95,175);
-		emailFiled.setSize(120, 20);
-		phoneNumberFiled.setLocation(95,215);
-		phoneNumberFiled.setSize(120, 20);
+		idField.setLocation(95,15);
+		idField.setSize(120, 20);
+		idField.requestFocus();
+		pwField.setLocation(95,55);
+		pwField.setSize(120, 20);
+		pwField.addKeyListener(new pwListener());
+		pwCheckField.setLocation(95,95);
+		pwCheckField.setSize(120, 20);
+		pwCheckField.addKeyListener(new pwCheckListener());
+		nameField.setLocation(95,135);
+		nameField.setSize(120, 20);
+		emailField.setLocation(95,175);
+		emailField.setSize(120, 20);
+		phoneNumberField.setLocation(95,215);
+		phoneNumberField.setSize(120, 20);
 		signUpButton.setLocation(100,250);
 		signUpButton.setSize(100, 20);
+		c.add(pwCheckRightLabel);
 		c.add(idLabel);
 		c.add(pwLabel);
+		c.add(pwRightCheckLabel);
 		c.add(pwCheckLabel);
 		c.add(nameLabel);
 		c.add(emailLabel);
 		c.add(phoneNumberLabel);
-		c.add(idFiled);
-		c.add(pwFiled);
-		c.add(pwCheckFiled);
-		c.add(nameFiled);
-		c.add(emailFiled);
-		c.add(phoneNumberFiled);
+		c.add(idField);
+		c.add(pwField);
+		c.add(pwCheckField);
+		c.add(nameField);
+		c.add(emailField);
+		c.add(phoneNumberField);
 		c.add(signUpButton);
 		setResizable(false);
 		setSize(300,350);
 		setVisible(true);
+	}
+	
+	class pwCheckListener extends KeyAdapter{
+		@Override
+        public void keyPressed(KeyEvent e) {
+			String Text = pwCheckField.getText()+e.getKeyChar(); 
+			pwRightCheckLabel.setLocation(95,70);
+			if(Text.equals(pwField.getText())) {
+				pwCheckRightLabel.setText("비밀번호가 일치 합니다.");
+				pwCheckRightLabel.setForeground(new Color(39, 107, 56));
+			}
+			else {
+				pwCheckRightLabel.setText("비밀번호가 일치하지 않습니다.");
+				pwCheckRightLabel.setForeground(Color.red);
+			}
+			
+		}
+	}
+	
+	class pwListener extends KeyAdapter{
+		@Override
+        public void keyPressed(KeyEvent e) {
+			String Text = pwField.getText()+e.getKeyChar(); 
+			pwRightCheckLabel.setLocation(95,70);
+			if(Text.length() >= 8) {
+				// ! ? @ * 
+				if(!Text.matches(".*[a-z|A-Z|].*")) {
+					pwRightCheckLabel.setText("문자를 입력해 주세요");
+					pwRightCheckLabel.setForeground(Color.red);
+				}
+				else if(!Text.matches(".*[0-9].*")) {
+					pwRightCheckLabel.setText("숫자를 입력해 주세요");
+					pwRightCheckLabel.setForeground(Color.red);
+				}
+				else if(!Text.matches(".*[*!@?~&+-].*")) {
+					pwRightCheckLabel.setText("특수문자를 입력해 주세요");
+					pwRightCheckLabel.setForeground(Color.red);
+				}
+				else {
+					pwRightCheckLabel.setText("사용 할 수 있는 비밀번호 입니다.");
+					pwRightCheckLabel.setForeground(new Color(39, 107, 56));
+				}
+				
+			}
+			else {
+				pwRightCheckLabel.setLocation(95,70);
+				pwRightCheckLabel.setText("8자리 이상 입력해 주세요");
+				pwRightCheckLabel.setForeground(Color.red);
+			}
+		}
 	}
 
 }
