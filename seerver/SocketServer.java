@@ -1,14 +1,4 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.sql.SQLException;
-import java.util.Scanner;
-
-
-public class SocketServer {
+public class SocketServer  {
 	
 	public static void main(String[] args) throws IOException, SQLException {
 		int port=8888;
@@ -21,13 +11,44 @@ public class SocketServer {
 			
 			System.out.println("사용자가 접속했습니다.");
 			System.out.println("Client : "+sock.getInetAddress());
-			OutputStream out = sock.getOutputStream();
-			DataOutputStream dous = new DataOutputStream(out);
-			dous.writeUTF("환영합니다.");
-			dous.flush();
-			dous.close();
+			ReceiveThread receiveThread = new ReceiveThread(sock, db);
+		    receiveThread.start();
 		}
 		
 	}
 	
+}
+
+class ReceiveThread extends Thread {
+
+	  private final Socket socket;
+	  private String receiveString;
+	  database db;
+
+	  public ReceiveThread(Socket socket, database db) {
+	    this.socket = socket;
+	    this.db = db;
+	  }
+
+	  @Override
+	  public void run() {
+	    try {
+	      DataInputStream tmpbuf = new DataInputStream(socket.getInputStream());
+	      while (true) {
+	        receiveString = tmpbuf.readUTF();
+	        if (receiveString == null) {
+	          System.out.println("상대방 연결이 종료되었습니다.");
+	        } else {
+	          System.out.println("상대방 : " + receiveString);
+	          db.count(receiveString);
+	        }
+	      }
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    } catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	  }
+
 }
