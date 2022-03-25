@@ -23,14 +23,13 @@ import java.util.Scanner;
 public class StartMenu {
 	
 	public static void main(String[] args){
-		LoginUri main = new LoginUri();
 		ticketClient client = null;
 		try {
 			client = new ticketClient();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(client.getString() );
+		LoginUri main = new LoginUri(client);
 	}
 }
 
@@ -40,6 +39,7 @@ public class StartMenu {
  */
 
 class LoginUri extends JFrame{
+	ticketClient getClient;
 	private JButton signInButton = new JButton("로그인");
 	private JButton signUpButton = new JButton("회원가입");
 	private JLabel IdLabel = new JLabel("아이디");
@@ -47,7 +47,8 @@ class LoginUri extends JFrame{
 	private JTextField idFiled = new JTextField();
 	private JTextField pwFiled = new JPasswordField();
 	Container c = getContentPane();
-	public LoginUri() {
+	public LoginUri(ticketClient client) {
+		getClient = client;
 		setTitle("로그인");
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,7 +119,7 @@ class LoginUri extends JFrame{
 	class SignUpListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			signUp signup = new signUp();
+			signUp signup = new signUp(getClient);
 		}
 		
 	}
