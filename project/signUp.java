@@ -1,17 +1,20 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
-import traning.LoginUri.pwListener;
+//import traning.LoginUri.pwListener;
 
 /*
  * 회원 가입 메뉴
  */
 public class signUp extends JFrame{
+	ticketClient getClient;
 	private JLabel idLabel = new JLabel("아이디");
 	private JLabel pwLabel = new JLabel("비밀번호");
 	private JLabel pwCheckLabel = new JLabel("비밀번호 확인");
@@ -27,9 +30,11 @@ public class signUp extends JFrame{
 	private JTextField emailField = new JTextField();
 	private JTextField phoneNumberField = new JTextField();
 	private JButton signUpButton = new JButton("회원가입");
+	private JButton idCheckButton = new JButton("확인");
 	Container c = getContentPane();
 	
-	public signUp() {
+	public signUp(ticketClient client) {
+		getClient = client;
 		setTitle("회원가입");
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -76,6 +81,9 @@ public class signUp extends JFrame{
 		phoneNumberField.setSize(120, 20);
 		signUpButton.setLocation(100,250);
 		signUpButton.setSize(100, 20);
+		idCheckButton.setLocation(230,15);
+		idCheckButton.setSize(70,20);
+		idCheckButton.addActionListener(new idCheckAction());
 		c.add(pwCheckRightLabel);
 		c.add(idLabel);
 		c.add(pwLabel);
@@ -91,29 +99,44 @@ public class signUp extends JFrame{
 		c.add(emailField);
 		c.add(phoneNumberField);
 		c.add(signUpButton);
+		c.add(idCheckButton);
 		setResizable(false);
-		setSize(300,350);
+		setSize(320,350);
 		setVisible(true);
+	}
+	
+	class idCheckAction implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			String id = idField.getText();
+			
+			getClient.select(id);
+			
+		}
 	}
 	
 	//사용자에게 재입력 비밀번호가 전입력 비밀번호와 맞는지 알림
 	class pwCheckListener extends KeyAdapter{
 		@Override
         public void keyPressed(KeyEvent e) {
-			String Text = pwCheckField.getText()+e.getKeyChar(); 
-			pwRightCheckLabel.setLocation(95,70);
+			String Text = pwCheckField.getText()+e.getKeyChar();
+			pwCheckRightLabel.setLocation(95,105);
 			//pwCheckField에 있는 문자열과 pwField에 있는 문자열이 같은지 확인
 			//같으면 일치한다는 걸 알려줌
 			if(Text.equals(pwField.getText())) {
 				pwCheckRightLabel.setText("비밀번호가 일치 합니다.");
 				pwCheckRightLabel.setForeground(new Color(39, 107, 56));
 			}
+			else if((Text.length()==2 & e.getKeyCode()==8) | (Text.length()==1 & e.getKeyCode()==8)) {
+				pwCheckRightLabel.setText("비밀번호를 일치 시켜 주세요");
+				pwCheckRightLabel.setForeground(Color.blue);
+			}
 			//같지 않다면 일치 하지 않음을 보여줌
 			else {
 				pwCheckRightLabel.setText("비밀번호가 일치하지 않습니다.");
 				pwCheckRightLabel.setForeground(Color.red);
 			}
-			
 		}
 	}
 	
@@ -124,7 +147,10 @@ public class signUp extends JFrame{
 			String Text = pwField.getText()+e.getKeyChar(); 
 			pwRightCheckLabel.setLocation(95,70);
 			// pwField의 길이가 8보다 큰지 확인
-			if(Text.length()+1 >= 8) {
+			if(Text.length() >= 8) {
+				/*
+				 * 형식에서 지원하지 않는 문자가 들어오면 지원하지 않는 문자라고 알리는 구문 구현 해야함
+				 */
 				// pwField에 문자자 있는지 확인
 				if(!Text.matches(".*[a-z|A-Z|].*")) {
 					pwRightCheckLabel.setText("문자를 입력해 주세요");
@@ -147,6 +173,11 @@ public class signUp extends JFrame{
 				}
 				
 			}
+			else if((Text.length()==2 & e.getKeyCode()==8) | (Text.length()==1 & e.getKeyCode()==8)) {
+				pwRightCheckLabel.setText("숫자,문자,특수문자를 포함한 8자이상 입력해주세요");
+				pwRightCheckLabel.setLocation(30,70);
+				pwRightCheckLabel.setForeground(Color.blue);
+			}
 			// 짧다면 부족하나다고 알려줌
 			else {
 				pwRightCheckLabel.setLocation(95,70);
@@ -155,5 +186,4 @@ public class signUp extends JFrame{
 			}
 		}
 	}
-
 }
