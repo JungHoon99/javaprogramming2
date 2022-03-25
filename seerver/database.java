@@ -16,12 +16,18 @@ public class database {
 		System.out.println(conn.toString());
 	}
 	
-	public void select() throws SQLException {
-		String str = "Select * from user";
-		ResultSet query = st.executeQuery(str+";");
+	public void count(String id) throws SQLException {
+		String str = "Select count(*) from user where userid='"+id;
+		ResultSet query = null;
+		try {
+			query = st.executeQuery(str+"';");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		while(query.next()) {
-			System.out.println(query.getString(2));
+			System.out.println(query.getString(1));
 		}
 	}
 }
