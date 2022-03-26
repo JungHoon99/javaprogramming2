@@ -37,7 +37,6 @@ public class StartMenu {
 /*
  * 로그인 메뉴
  */
-
 class LoginUri extends JFrame{
 	ticketClient getClient;
 	private JButton signInButton = new JButton("로그인");
