@@ -10,7 +10,8 @@ import java.util.Scanner;
 public class ticketClient extends Thread{
 	
 	private final Socket socket;
-	String str;
+	private String receiveString;
+	private String str;
 	
 	public ticketClient() throws IOException{
 		socket = new Socket("127.0.0.1",8888);
@@ -20,8 +21,17 @@ public class ticketClient extends Thread{
 	public void select(String get) {
 		try {
 			DataOutputStream sendWriter = new DataOutputStream(socket.getOutputStream());
+			DataInputStream tmpbuf = new DataInputStream(socket.getInputStream());
 			sendWriter.writeUTF(get);
 			sendWriter.flush();
+			receiveString = tmpbuf.readUTF();
+			
+			if (receiveString == null) {
+		          System.out.println("상대방 연결이 종료되었습니다.");
+		    } else {
+		          System.out.println("상대방 : " + receiveString);
+		    }
+			
 		    }catch (IOException e){
 		      e.printStackTrace();
 		    }
