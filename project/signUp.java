@@ -12,6 +12,8 @@ import javax.swing.*;
 
 /*
  * 회원 가입 메뉴
+ * 서버와 DataBase를 연동하여 회원가입시에입력한 아이디가
+ * DataBase에 있는지 없는지 확인까지함
  */
 public class signUp extends JFrame{
 	ticketClient getClient;
@@ -110,7 +112,6 @@ public class signUp extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			String id = idField.getText();
-			
 			getClient.select(id);
 			
 		}
