@@ -11,12 +11,12 @@ public class database {
 		String password = "kmk20216*";
 		String url = "jdbc:mysql://localhost:3306/ticketmoa";
 		Connection conn = DriverManager.getConnection(url, user, password);
-		
 		st = conn.createStatement();
 		System.out.println(conn.toString());
 	}
 	
-	public void count(String id) throws SQLException {
+	public String count(String id) throws SQLException {
+		String returnNum;
 		String str = "Select count(*) from user where userid='"+id;
 		ResultSet query = null;
 		try {
@@ -26,8 +26,10 @@ public class database {
 			e.printStackTrace();
 		}
 		
-		while(query.next()) {
-			System.out.println(query.getString(1));
+		if(query.next()) {
+			returnNum = query.getString(1);
 		}
+		
+		return query.getString(1);
 	}
 }
