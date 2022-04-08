@@ -1,133 +1,85 @@
 package ticketMoa;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
-import javax.swing.*;
-import javax.swing.event.*;
-
-import java.util.ArrayList;
-import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.Scanner;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-public class StartMenu {
+
+public class ticketClient extends Thread{
 	
-	public static void main(String[] args){
-		ticketClient client = null;
+	private final Socket socket;
+	private String receiveString;
+	private String str;
+	
+	public ticketClient() throws IOException{
+		socket = new Socket("127.0.0.1",8888);
+		System.out.println("서버와 접속되었습니다.");
+	  }
+	
+	public String select(String get) {
 		try {
-			client = new ticketClient();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		LoginUri main = new LoginUri(client);
-	}
-}
-
-
-/*
- * 로그인 메뉴
- */
-class LoginUri extends JFrame{
-	ticketClient getClient;
-	private JButton signInButton = new JButton("로그인");
-	private JButton signUpButton = new JButton("회원가입");
-	private JLabel IdLabel = new JLabel("아이디");
-	private JLabel pwLabel = new JLabel("비밀번호");
-	private JTextField idField = new JTextField();
-	private JTextField pwField = new JPasswordField();
-	Container c = getContentPane();
-	public LoginUri(ticketClient client) {
-		getClient = client;
-		setTitle("로그인");
-		setLayout(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		signInButton.setLocation(90,100);
-		signInButton.setSize(100, 20);
-		signInButton.addActionListener(new SignInListener());
-		signUpButton.setLocation(90,130);
-		signUpButton.setSize(100, 20);
-		signUpButton.addActionListener(new SignUpListener());
-		IdLabel.setLocation(0,10);
-		IdLabel.setSize(90,30);
-		IdLabel.setHorizontalAlignment(JLabel.RIGHT);
-		pwLabel.setLocation(0,50);
-		pwLabel.setSize(90,30);
-		pwLabel.setHorizontalAlignment(JLabel.RIGHT);
-		idField.setLocation(95,15);
-		idField.setSize(120, 20);
-		idField.requestFocus();
-		idField.addKeyListener(new idListener());
-		pwField.setLocation(95,55);
-		pwField.setSize(120, 20);
-		pwField.addKeyListener(new pwListener());
-		c.add(signInButton);
-		c.add(signUpButton);
-		c.add(IdLabel);
-		c.add(pwLabel);
-		c.add(idField);
-		c.add(pwField);
-		setResizable(false);
-		setSize(300,200);
-		setVisible(true);
-	}
-
-	//pwField에 엔터  입력이 들어 온다면 로그인 회면 출력  
-	class pwListener extends KeyAdapter{
-		String getId;
-		String getPw;
-		@Override
-        public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode() == KeyEvent.VK_ENTER){
-				getClient.select(idField.getText());
-				
-				//JFrame 기능 정지
-				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				// 프로그램 화면 종료
-				dispose();
-				mainMenu signup = new mainMenu();
-			}
-		}
-	}
-	
-	//idField에 엔터 입력이 들어 온다면 포커스를 pwField에 둔다
-	class idListener extends KeyAdapter{
-		@Override
-        public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode() == KeyEvent.VK_ENTER){
-				pwField.requestFocus();
-			}
-		}
-	}
-	
-	//로그인 가능한 아이디 인지 확인
-	class SignInListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			getClient.select(getName());
+			ObjectOutputStream sendWriter = new ObjectOutputStream(socket.getOutputStream());
+			DataInputStream tmpbuf = new DataInputStream(socket.getInputStream());
+			sendWriter.writeUTF(get);
+			sendWriter.flush();
+			receiveString = tmpbuf.readUTF();
 			
-			dispose();
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			mainMenu signup = new mainMenu();
-		}
-		
+			if (receiveString == null) {
+		          System.out.println("상대방 연결이 종료되었습니다.");
+		    } else {
+		          System.out.println("상대방 : " + receiveString);
+		    }
+			
+		    }catch (IOException e){
+		      e.printStackTrace();
+		    }
+		return receiveString;
 	}
 	
-	class SignUpListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			signUp signup = new signUp(getClient);
-		}
-		
+	public String loginChecking(String message) {
+		try {
+			byte[] bytes=toByteArray(message);
+			ObjectOutputStream sendWriter = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream tmpbuf = new ObjectInputStream(socket.getInputStream());
+			sendWriter.writeObject(bytes);
+			sendWriter.flush();
+			receiveString = (String) tmpbuf.readObject();
+			if (receiveString == null) {
+		          System.out.println("상대방 연결이 종료되었습니다.");
+		    } else {
+		          System.out.println("상대방 : " + receiveString);
+		    }
+			
+		    }catch (IOException e){
+		      e.printStackTrace();
+		    } catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return receiveString;
+	}
+	
+	public static byte[] toByteArray (String obj)
+	{
+	    byte[] bytes = null;
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    try {
+	        ObjectOutputStream oos = new ObjectOutputStream(baos);
+	        oos.writeObject(obj);
+	        oos.flush();
+	        oos.close();
+	        baos.close();
+	        bytes = baos.toByteArray();
+	    }
+	    catch (IOException ex) {
+	        //TODO: Handle the exception
+	    }
+	    return bytes;
 	}
 }
