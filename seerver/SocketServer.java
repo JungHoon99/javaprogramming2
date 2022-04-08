@@ -1,6 +1,11 @@
+package sever;
+
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 
+//서버와 클라이언트가 페키지가 동일하지 않으면 통신이 되게 하는법
 public class SocketServer  {
 	
 	public static void main(String[] args) throws IOException, SQLException {
@@ -32,8 +38,9 @@ public class SocketServer  {
 class ReceiveThread extends Thread {
 
 	  private final Socket socket;
-	  private String receiveString;
+	  private Object receiveMessage;
 	  private String getData;
+	  private byte[] Buffer = new byte[1024];
 	  database db;
 
 	  public ReceiveThread(Socket socket, database db) {
@@ -44,71 +51,46 @@ class ReceiveThread extends Thread {
 	  @Override
 	  public void run() {
 	    try {
-	      DataInputStream tmpbuf = new DataInputStream(socket.getInputStream());
-	      DataOutputStream sendWriter = new DataOutputStream(socket.getOutputStream());
 	      while (true) {
-	        receiveString = tmpbuf.readUTF();
-	        if (receiveString == null) {
+	    	  ObjectInputStream tmpbuf = new ObjectInputStream(socket.getInputStream());
+		      ObjectOutputStream sendWriter = new ObjectOutputStream(socket.getOutputStream());
+	    	  Buffer = (byte[]) tmpbuf.readObject();
+	    	  getData = toObject(Buffer, String.class);
+	    	  
+	        if (getData == null) {
 	          System.out.println("상대방 연결이 종료되었습니다.");
 	        } else {
-	          System.out.println("상대방 : " + receiveString);
-	          getData = db.count(receiveString);
+	          System.out.println("상대방 : " + getData);
+	          getData = db.count(getData);
 	          System.out.println(getData);
-	          
 	        }
-			sendWriter.writeUTF(getData);
+			sendWriter.writeObject(getData);
 			sendWriter.flush();
 	      }
 	    } catch (IOException e) {
 	      e.printStackTrace();
 	    } catch (SQLException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	  }
-}
-
-
-/*
-public class SocketServer {
-	 public static void main(String[] args) throws IOException {
-		    int port = 8888;
-		    ServerSocket socketServer = new ServerSocket(port);
-		    System.out.println("서버가 시작되었습니다.");
-		    Socket sock = socketServer.accept();
-		    System.out.println("ip : " + sock.getInetAddress() + " 와 연결되었습니다.");
-		    while(true) {
-		      Socket sock = socketServer.accept();
-		      System.out.println("ip : " + sock.getInetAddress() + " 와 연결되었습니다.");
-		      ReceiveThread receiveThread = new ReceiveThread(sock);
-		      receiveThread.start();
-		      SendThread sendThread = new SendThread(sock);
-		      sendThread.start();
-		    }
-		  }
-}
-
-class SendThread extends Thread{
-
-	  private final Socket socket;
-	  private Scanner scanner = new Scanner(System.in);
-
-	  public SendThread(Socket socket){
-	    this.socket = socket;
-	  }
-
-	  @Override
-	  public void run() {
-	    try {
-	      DataOutputStream sendWriter = new DataOutputStream(socket.getOutputStream());
-	      String sendString;
-	      while(true){
-	        sendString = scanner.nextLine();
-	        sendWriter.writeUTF(sendString);
-	        sendWriter.flush();
+	  
+	  public static <T> T toObject (byte[] bytes, Class<T> type)
+	  {
+	      Object obj = null;
+	      try {
+	          ByteArrayInputStream bis = new ByteArrayInputStream (bytes);
+	          ObjectInputStream ois = new ObjectInputStream (bis);
+	          obj = ois.readObject();
 	      }
-	    }catch (IOException e){
-	      e.printStackTrace();
-	    }
+	      catch (IOException ex) {
+	          //TODO: Handle the exception
+	      }
+	      catch (ClassNotFoundException ex) {
+	          //TODO: Handle the exception
+	      }
+	      return type.cast(obj);
 	  }
-	}
-*/
+}
